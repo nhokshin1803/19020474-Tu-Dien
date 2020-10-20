@@ -54,7 +54,7 @@ public class DictionaryApplication extends JFrame {
         jLabel3 = new JLabel();
         setPreferredSize(new java.awt.Dimension(400, 361));
 
-        applicationPanel.setBackground(new java.awt.Color(255, 255, 255));
+        applicationPanel.setBackground(new java.awt.Color(235, 255, 245));
         applicationPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
         tFSearch.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
@@ -77,7 +77,6 @@ public class DictionaryApplication extends JFrame {
             public void keyPressed(KeyEvent e) {
 
             }
-
             @Override
             public void keyReleased(KeyEvent e) {
                 String s = tFSearch.getText();
@@ -102,13 +101,13 @@ public class DictionaryApplication extends JFrame {
                 }
                 Dictionaries.setModel(model);
                 for (int i = 0; i < length; ++i) {
-                    if (s.equals(rec[i])) {
+                    if (s.equals(rec[i]) && s.length() > 0) {
                         String ss = Dictionary.word.get(ind[i]).word_type + "\n"
                                 + Dictionary.word.get(ind[i]).word_pronounce + "\n"
                                 + Dictionary.word.get(ind[i]).word_explain;
                         s = ss;
                         model.clear();
-                    }
+                    } else s = "";
                 }
                 dictionaryArea.setText(s);
             }
@@ -198,6 +197,23 @@ public class DictionaryApplication extends JFrame {
 
         fixButton.setText("Fix");
         fixButton.setBackground(Color.WHITE);
+        fixButton.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String temp = tFSearch.getText();
+                String[] s = dictionaryArea.getText().split("\\n");
+                for(int i = 0;i < Dictionary.count; ++i) {
+                    if(Dictionary.word.get(i).word_target.equals(s[0])) {
+                        Dictionary.word.get(i).word_type = s[1];
+                        Dictionary.word.get(i).word_type = s[2];
+                        Dictionary.word.get(i).word_type = s[3];
+                    }
+                }
+                DictionaryManagement.exportToFile();
+                showMessageDialog(null,"Word Fixed!");
+
+            }
+        });
         synonymsArea.setColumns(20);
         synonymsArea.setRows(5);
         jScrollPane3.setViewportView(synonymsArea);
@@ -320,11 +336,10 @@ public class DictionaryApplication extends JFrame {
                 r = o;
             }
         }
-        Dictionary.word.add(r,w);
+        if(!Dictionary.word.get(r-1).word_target.equals(w.word_target))
+            Dictionary.word.add(r,w);
         DictionaryManagement.exportToFile();
         showMessageDialog(null, "Add Success");
-
-
         // TODO add your handling code here:
     }
 

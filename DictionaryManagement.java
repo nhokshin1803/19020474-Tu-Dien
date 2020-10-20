@@ -16,11 +16,12 @@ public class DictionaryManagement {
 
     }
     public static void insertFromFile() throws FileNotFoundException {
-        File file = new File("E:\\19020474_Tudien\\src\\dictionaries.txt");
+        File file = new File("dictionaries.txt");
         Scanner sc = new Scanner(file,"UTF-8");
         while(sc.hasNextLine()) {
             Word odd = new Word();
             String[] div = sc.nextLine().split("\\t");
+            if(div.length < 4) continue;
             odd.word_target = div[0];
             odd.word_type = div[1];
             odd.word_pronounce = div[2];
@@ -39,7 +40,6 @@ public class DictionaryManagement {
                 }
             }
         }
-
     }
     public static void add(String w, String explain) {
         Word odd = new Word();
@@ -69,11 +69,11 @@ public class DictionaryManagement {
     }
     public static void exportToFile() {
         try {
-            OutputStream outputStream = new FileOutputStream("dictionaries.txt");
-            Writer writer = new OutputStreamWriter(outputStream, "UTF-8");
-            for (Word word : Dictionary.word) {
-                String s = word.word_target + "\t" + word.word_type + "\t" + word.word_pronounce + "\t" + word.word_explain + "\n";
-                writer.write(s);
+          ;  OutputStream outputStream = new FileOutputStream("dictionaries.txt");
+                Writer writer = new OutputStreamWriter(outputStream, "UTF-8");
+                for (Word word : Dictionary.word) {
+                    String s = word.word_target + "\t" + word.word_type + "\t" + word.word_pronounce + "\t" + word.word_explain + "\n";
+                    writer.write(s);
             }
             writer.close();
         } catch (IOException ex) {
