@@ -1,5 +1,10 @@
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Iterator;
+
 public class Dictionary {
-    public static Word[] word = new Word[1000];
-    static int count = 0;
+    public static List<Word> word = new ArrayList<>();
+    public static int count = 0;
 
 }
